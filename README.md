@@ -236,6 +236,8 @@
 |220| [What is the purpose of registerServiceWorker in React?](#what-is-the-purpose-of-registerserviceworker-in-react)|
 |221| [What is React memo function?](#what-is-react-memo-function)|
 |222| [What is React lazy function?](#what-is-react-lazy-function)|
+|223| [How to prevent unnecessary updates using setState?](#how-to-prevent-unnecessary-updates-using-setstate)|
+|224| [How do you render Array, Strings and Numbers in React 16 Version?](#how-do-you-render-array,-strings-and-numbers-in-react-16-version)|
 
 ## Core React
 
@@ -3808,3 +3810,51 @@
      ```
      **Note:**
      React.lazy and Suspense is not yet available for server-side rendering. If you want to do code-splitting in a server rendered app, we still recommend React Loadable.
+223. ### How to prevent unnecessary updates using setState?
+     You can compare current value of the state with an existing state value and decide whether to rerender the page or not. If the values are same then you need to return **null** to stop rerendering otherwise return the latest state value. For example, the user profile information is conditionally rendered as follows,
+     ```jsx
+     getUserProfile = user => {
+       const latestAddress = user.address;
+       this.setState(state => {
+         if (state.address === latestAddress) {
+           return null;
+         } else {
+           return { title: latestAddress };
+         }
+       });
+     };
+     ```
+224. ### How do you render Array, Strings and Numbers in React 16 Version?
+     **Arrays**: Unlike older releases, you don't need to make sure **render** method return a single element in React16. You are able to return multiple sibling elements without a wrapping element by returning an array. For example, let us take the below list of developers,
+     ```jsx
+     const ReactJSDevs = () => {
+       return [
+         <li key="1">John</li>,
+         <li key="2">Jackie</li>,
+         <li key="3">Jordan</li>
+       ];
+     }
+     ```
+     You can also merge this array of items in another array component
+     ```jsx
+     const JSDevs = () => {
+       return (
+         <ul>
+           <li>Brad</li>
+           <li>Brodge</li>
+           <ReactJSDevs/>
+           <li>Brandon</li>
+         </ul>
+       );
+     }
+     ```
+     **Strings and Numbers:** You can also return string and number type from the render method
+     ```jsx
+     render() {
+      return 'Welcome to ReactJS questions';
+     }
+     // Number
+     render() {
+      return 2018;
+     }
+     ```
